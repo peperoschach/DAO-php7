@@ -16,6 +16,12 @@ echo json_encode($list); */
 echo json_encode($search); */
 
 // load user loggedin
-$login = new User();
+/* $login = new User();
 $login->login("jose", "68hh8s");
-echo $login;
+echo $login; */
+
+$student = new User("Astolfo", "yterw");
+
+$student->insert();
+
+echo $student;

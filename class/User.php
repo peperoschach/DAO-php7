@@ -66,12 +66,7 @@ class User {
 
         if (isset($result[0])) {
 
-            $row = $result[0];
-
-            $this->setIduser($row['iduser']);
-            $this->setDeslogin($row['deslogin']);
-            $this->setDespassword($row['despassword']);
-            $this->setDtregister(new DateTime($row['dtregister']));
+            $this->setData($result[0]);
 
         }
     }
@@ -103,16 +98,40 @@ class User {
 
         if (isset($result[0])) {
 
-            $row = $result[0];
+            $this->setData($result[0]);
 
-            $this->setIduser($row['iduser']);
-            $this->setDeslogin($row['deslogin']);
-            $this->setDespassword($row['despassword']);
-            $this->setDtregister(new DateTime($row['dtregister']));
         } else {
             throw new Exception( "Invalid login and/or password");
 
         }
+    }
+
+    public function setData($data)
+    {
+        $this->setIduser($data['iduser']);
+        $this->setDeslogin($data['deslogin']);
+        $this->setDespassword($data['despassword']);
+        $this->setDtregister(new DateTime($data['dtregister']));
+    }
+
+    public function insert()
+    {
+        $sql = new Sql();
+
+        $result = $sql->select("CALL sp_users_insert(:LOGIN, :PASSWORD)", array(
+            ':LOGIN'=>$this->getDeslogin(),
+            ':PASSWORD'=>$this->getDespassword()
+        ));
+
+        if (isset($result[0])) {
+            $this->setData($result[0]);
+        }
+    }
+
+    public function __construct($login =  "", $password = "")
+    {
+        $this->setDeslogin($login);
+        $this->setDespassword($password);
     }
 
     public function __toString()
