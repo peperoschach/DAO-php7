@@ -20,8 +20,12 @@ echo json_encode($search); */
 $login->login("jose", "68hh8s");
 echo $login; */
 
-$student = new User("Astolfo", "yterw");
-
+// insert to user
+/* $student = new User("Astolfo", "yterw");
 $student->insert();
+echo $student; */
 
-echo $student;
+$user = new User();
+$user->loadById(6);
+$user->update("Pedro Pedro", "65432");
+echo $user;

@@ -128,6 +128,20 @@ class User {
         }
     }
 
+    public function update($login, $password)
+    {
+        $this->setDeslogin($login);
+        $this->setDespassword($password);
+
+        $sql = new Sql();
+
+        $sql->query("UPDATE tb_users SET deeslogin = :LOGIN, despassword = :PASSWORD WHERE iduser = :ID", array(
+            ':LOGIN'=>$this->getDeslogin(),
+            ':PASSWORD'=>$this->getDespassword(),
+            ':ID'=>$this->getIduser()
+        ));
+    }
+
     public function __construct($login =  "", $password = "")
     {
         $this->setDeslogin($login);
