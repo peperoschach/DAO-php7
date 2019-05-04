@@ -25,7 +25,16 @@ echo $login; */
 $student->insert();
 echo $student; */
 
-$user = new User();
+// update to user
+/* $user = new User();
 $user->loadById(6);
 $user->update("Pedro Pedro", "65432");
+echo $user; */
+
+// delete to user
+$user = new User();
+$user->loadById(7);
+
+$user->delete();
+
 echo $user;
