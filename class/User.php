@@ -76,6 +76,45 @@ class User {
         }
     }
 
+    public static function getList()
+    {
+        $sql = new Sql();
+
+        return $sql->select("SELECT * FROM tb_users ORDER BY deslogin");
+    }
+
+    public static function search($login)
+    {
+        $sql = new Sql();
+
+        return $sql->select("SELECT * FROM tb_users WHERE deslogin LIKE :SEARCH ORDER BY deslogin", array(
+            ':SEARCH'=>"%" . $login . "%"
+        ));
+    }
+
+    public function login($login, $password)
+    {
+        $sql = new Sql();
+
+        $result = $sql->select("SELECT * FROM tb_users WHERE deslogin = :LOGIN AND despassword= :PASSWORD ", array(
+            ":LOGIN" => $login,
+            ":PASSWORD"=>$password
+        ));
+
+        if (isset($result[0])) {
+
+            $row = $result[0];
+
+            $this->setIduser($row['iduser']);
+            $this->setDeslogin($row['deslogin']);
+            $this->setDespassword($row['despassword']);
+            $this->setDtregister(new DateTime($row['dtregister']));
+        } else {
+            throw new Exception( "Invalid login and/or password");
+
+        }
+    }
+
     public function __toString()
     {
         return json_encode(array(
